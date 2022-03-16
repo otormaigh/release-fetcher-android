@@ -1,0 +1,56 @@
+plugins {
+  id 'com.android.application'
+  id 'org.jetbrains.kotlin.android'
+}
+
+android {
+  namespace 'ie.otormaigh.releasefetcher'
+  compileSdk 32
+
+  defaultConfig {
+    applicationId "ie.otormaigh.releasefetcher"
+    minSdk 26
+    targetSdk 32
+    versionCode 1
+    versionName "1.0"
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file('../signing/debug.keystore')
+    }
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix ".debug"
+      signingConfig signingConfigs.debug
+    }
+
+    release {
+      signingConfig signingConfigs.debug
+      postprocessing {
+        proguardFiles 'proguard-rules.pro'
+        removeUnusedResources = true
+        removeUnusedCode = true
+        optimizeCode = true
+        obfuscate = true
+      }
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_11.toString()
+  }
+}
+
+dependencies {
+  implementation 'androidx.core:core-ktx:1.7.0'
+  implementation 'androidx.appcompat:appcompat:1.4.1'
+  implementation 'com.google.android.material:material:1.5.0'
+}
