@@ -4,6 +4,28 @@ plugins {
   id 'org.jetbrains.kotlin.android' version '1.6.20-M1' apply false
 }
 
+subprojects {
+  afterEvaluate { project ->
+    if (project.hasProperty('android')) {
+      android {
+        compileSdkVersion 32
+
+        defaultConfig {
+          minSdkVersion 26
+          targetSdkVersion 32
+        }
+        compileOptions {
+          sourceCompatibility JavaVersion.VERSION_11
+          targetCompatibility JavaVersion.VERSION_11
+        }
+        kotlinOptions {
+          jvmTarget = JavaVersion.VERSION_11
+        }
+      }
+    }
+  }
+}
+
 wrapper {
   gradleVersion = "7.4.1"
   distributionType = "bin"

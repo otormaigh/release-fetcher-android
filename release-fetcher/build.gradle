@@ -1,5 +1,5 @@
 plugins {
-  id 'com.android.application'
+  id 'com.android.library'
   id 'org.jetbrains.kotlin.android'
 }
 
@@ -7,28 +7,14 @@ android {
   namespace 'ie.otormaigh.releasefetcher'
 
   defaultConfig {
-    applicationId "ie.otormaigh.releasefetcher"
-    versionCode 1
-    versionName "1.0"
-  }
-
-  signingConfigs {
-    debug {
-      storeFile file('../signing/debug.keystore')
-    }
+    consumerProguardFiles "consumer-rules.pro"
   }
 
   buildTypes {
-    debug {
-      applicationIdSuffix ".debug"
-      signingConfig signingConfigs.debug
-    }
-
     release {
-      signingConfig signingConfigs.debug
       postprocessing {
-        proguardFiles 'proguard-rules.pro'
-        removeUnusedResources = true
+        consumerProguardFiles 'consumer-rules.pro'
+        removeUnusedResources = false
         removeUnusedCode = true
         optimizeCode = true
         obfuscate = true
