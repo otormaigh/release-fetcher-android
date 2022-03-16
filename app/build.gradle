@@ -4,12 +4,16 @@ plugins {
 }
 
 android {
-  namespace 'ie.otormaigh.releasefetcher'
+  namespace 'ie.otormaigh.releasefetcher.demo'
 
   defaultConfig {
-    applicationId "ie.otormaigh.releasefetcher"
+    applicationId "ie.otormaigh.releasefetcher.demo"
     versionCode 1
     versionName "1.0"
+  }
+
+  buildFeatures {
+    viewBinding true
   }
 
   signingConfigs {
@@ -38,7 +42,11 @@ android {
 }
 
 dependencies {
-  implementation 'androidx.core:core-ktx:1.7.0'
-  implementation 'androidx.appcompat:appcompat:1.4.1'
-  implementation 'com.google.android.material:material:1.5.0'
+  implementation project(":release-fetcher")
+
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+
+  implementation 'androidx.core:core-ktx:1.9.0-alpha01'
+  implementation 'androidx.appcompat:appcompat:1.6.0-alpha01'
+  implementation 'com.google.android.material:material:1.6.0-alpha03'
 }
