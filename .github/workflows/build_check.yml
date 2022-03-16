@@ -1,0 +1,183 @@
+name: Build + Check + APK Stats
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  pre-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2.1.7
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1.0.4
+      - name: Run dependencies
+        run: ./gradlew :app:dependencies --stacktrace --scan
+
+  check:
+    needs: pre-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2.1.7
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: check-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Quality checks
+        run: ./gradlew lint --stacktrace --scan
+
+  test:
+    needs: pre-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2.1.7
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: test-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Unit Test
+        run: ./gradlew test --stacktrace --scan
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: report-archive
+          path: |
+            app/build/test-results
+          retention-days: 1
+
+  publish-unit-test-result:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+    steps:
+      - name: Download Unit test results
+        if: always()
+        uses: actions/download-artifact@v3
+        with:
+          name: report-archive
+      - name: Publish Unit Test Results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v1.30
+        with:
+          commit: ${{ github.event.workflow_run.head_sha }}
+          files: '**/build/test-results/**/TEST-*.xml'
+
+  build:
+    needs:
+      - check
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v2.1.7
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: build-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Assemble Release
+        run: ./gradlew clean assembleRelease bundleRelease --stacktrace --scan
+      - name: Archive APKs
+        run: |
+          cp app/build/outputs/apk/release/*.apk release-${{ github.sha }}.apk
+          cp app/build/outputs/bundle/release/*.aab release-${{ github.sha }}.aab
+      - name: Upload archived assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-archive
+          path: |
+            release-${{ github.sha }}.apk
+            release-${{ github.sha }}.aab
+          retention-days: 1
+      - name: Push APK to assets/master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          git config user.name "otormaigh-bot"
+          git config user.email "github-action@noreply.otormaigh.com"
+          git checkout --orphan assets/master
+          git rm --cached -r .
+          cp -R app/build/outputs/apk/release/. assets
+          cp -R app/build/outputs/bundle/release/. assets
+          git add assets
+          git commit -m 'assets from ${{ github.sha }}'
+          git push -f origin assets/master
+
+  apk-stats:
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Archived binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: build-archive
+      # Manually download from branch rather than using action/checkout step so that
+      # diffuse binary is the latest relative to the branch being build rather than master etc.
+      - name: Download Latest assets from assets/master
+        run: git fetch origin && git checkout origin/assets/master assets/
+
+      - name: Run diffuse on APK
+        run: |
+          .github/bin/diffuse-0.2.0-SNAPSHOT.jar diff --apk assets/*.apk release-${{ github.sha }}.apk > apk-diff-${{ github.sha }}.txt
+          printf "### Diffuse stats for \`$(echo ${GITHUB_BASE_REF} | cut -c1-7)\` ➡ $(echo ${GITHUB_SHA} | cut -c1-7) \n\n\`\`\`\n" > apk-pr-comment.txt && sed '/====   DEX   ====/q' apk-diff-${{ github.sha }}.txt | tac | sed "1,2d" | tac | sed -e :a -e '/^\n*$/{$d;N;};/\n$/ba' >> apk-pr-comment.txt && echo "\`\`\`"  >> apk-pr-comment.txt
+      - name: Add APK diff
+        uses: machine-learning-apps/pr-comment@1.0.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          path: apk-pr-comment.txt
+
+      - name: Upload full diff
+        uses: actions/upload-artifact@v3
+        with:
+          name: diff-report
+          path: |
+            apk-diff-${{ github.sha }}.txt

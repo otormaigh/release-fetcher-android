@@ -1,0 +1,25 @@
+# IDEA
+*.iml
+.idea/*
+!.idea/codeStyleSettings.xml
+!.idea/copyright
+!.idea/codeStyles
+!.idea/icon.png
+!.idea/icon_dark.png
+
+# Gradle
+.gradle
+build
+/reports
+
+# Gradle Android
+**/local.properties
+/captures
+
+# OSX
+.DS_Store
+
+# Encrypted files
+enc.properties
+signing/private_key.pepk
+signing/release.keystore
