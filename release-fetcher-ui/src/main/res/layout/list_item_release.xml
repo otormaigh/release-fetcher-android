@@ -3,7 +3,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
+  android:layout_height="wrap_content"
   android:paddingStart="16dp"
   android:paddingEnd="16dp">
 
@@ -21,8 +21,30 @@
     android:id="@+id/tvBody"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/tvAssetTitle"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/tvTag"
     tools:text="* Bump target SDK to 31 (Android 12) \n* Update dependencies \n* Add some extra logging" />
+
+  <TextView
+    android:layout_marginTop="8dp"
+    android:id="@+id/tvAssetTitle"
+    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Assets"
+    app:layout_constraintBottom_toTopOf="@id/rvAssets"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tvBody" />
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/rvAssets"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/tvAssetTitle"
+    tools:itemCount="2"
+    tools:listitem="@layout/list_item_asset" />
 </androidx.constraintlayout.widget.ConstraintLayout>

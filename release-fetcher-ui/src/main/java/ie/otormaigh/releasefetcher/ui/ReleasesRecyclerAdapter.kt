@@ -17,10 +17,14 @@ internal class ReleasesRecyclerAdapter : ListAdapter<Release, ReleasesRecyclerAd
     holder.bind(getItem(position))
   }
 
-  inner class ViewHolder(val binding: ListItemReleaseBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: Release) {
-      binding.tvTag.text = item.tagName
-      binding.tvBody.text = item.body.takeIf { it.isNotEmpty() } ?: "<Empty>"
+  inner class ViewHolder(private val binding: ListItemReleaseBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(item: Release): Unit = with(binding) {
+      tvTag.text = item.tagName
+      tvBody.text = item.body.takeIf { it.isNotEmpty() } ?: "<Empty>"
+
+      val innerAdapter = AssetRecyclerAdapter()
+      rvAssets.adapter = innerAdapter
+      innerAdapter.submitList(item.assets)
     }
   }
 
