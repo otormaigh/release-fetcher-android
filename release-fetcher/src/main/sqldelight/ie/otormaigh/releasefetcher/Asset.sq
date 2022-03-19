@@ -9,3 +9,12 @@ CREATE TABLE asset(
   updatedAt TEXT NOT NULL,
   browserDownloadUrl TEXT NOT NULL
 );
+
+insert:
+INSERT OR REPLACE INTO asset
+VALUES ?;
+
+fetch:
+SELECT *
+FROM asset
+WHERE id = :id;

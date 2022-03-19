@@ -1,26 +1,26 @@
 package ie.otormaigh.releasefetcher
 
 import android.content.Context
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
-import ie.otormaigh.releasefetcher.persistance.columnadapter.BooleanColumnAdapter
-import ie.otormaigh.releasefetcher.persistance.columnadapter.ListAssetColumnAdapter
+import androidx.work.Data
+import ie.otormaigh.releasefetcher.persistance.Persistence
 
 class ReleaseFetcher(private val context: Context) {
-  private val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, context, "release_fetcher.db")
-  private val database = Database(
-    driver = driver,
-    releaseAdapter = Release.Adapter(
-      draftAdapter = BooleanColumnAdapter(),
-      preReleaseAdapter = BooleanColumnAdapter(),
-      assetsAdapter = ListAssetColumnAdapter()
-    )
-  )
-  internal val releaseQueries: ReleaseQueries = database.releaseQueries
+  private val persistence by lazy { Persistence(context) }
 
   fun fetchOnline() =
-    WorkScheduler.oneTimeRequest<ReleaseFetcherWorker>(context)
+    WorkScheduler.oneTimeRequest<FetchReleasesWorker>(context)
 
   fun fetchLocal(): List<Release> =
-    releaseQueries.fetchAll().executeAsList()
+    persistence.releaseQueries.fetchAll().executeAsList()
+
+  fun downloadAsset(assetId: Long?) {
+    if (assetId == null) return
+
+    WorkScheduler.oneTimeRequest<FetchAssetWorker>(
+      context,
+      Data.Builder()
+        .putLong(FetchAssetWorker.ASSET_ID, assetId)
+        .build()
+    )
+  }
 }

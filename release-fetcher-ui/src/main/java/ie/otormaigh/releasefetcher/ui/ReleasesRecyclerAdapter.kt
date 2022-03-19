@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.otormaigh.releasefetcher.Release
 import ie.otormaigh.releasefetcher.ui.databinding.ListItemReleaseBinding
 
-internal class ReleasesRecyclerAdapter : ListAdapter<Release, ReleasesRecyclerAdapter.ViewHolder>(diffUtil) {
+internal class ReleasesRecyclerAdapter(val fetchAsset: (Long?) -> Unit) : ListAdapter<Release, ReleasesRecyclerAdapter.ViewHolder>(diffUtil) {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
     ViewHolder(ListItemReleaseBinding.inflate(LayoutInflater.from(parent.context)))
-
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     holder.bind(getItem(position))
@@ -21,6 +20,8 @@ internal class ReleasesRecyclerAdapter : ListAdapter<Release, ReleasesRecyclerAd
     fun bind(item: Release): Unit = with(binding) {
       tvTag.text = item.tagName
       tvBody.text = item.body.takeIf { it.isNotEmpty() } ?: "<Empty>"
+
+      binding.root.setOnClickListener { fetchAsset(item.assets.firstOrNull()?.id) }
 
       val innerAdapter = AssetRecyclerAdapter()
       rvAssets.adapter = innerAdapter

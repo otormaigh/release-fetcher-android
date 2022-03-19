@@ -6,17 +6,22 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import ie.otormaigh.releasefetcher.api.ReleaseFetcherApiClient
 import ie.otormaigh.releasefetcher.data.ReleaseResponse.Companion.toEntity
+import ie.otormaigh.releasefetcher.persistance.Persistence
 
-internal class ReleaseFetcherWorker(context: Context, workerParams: WorkerParameters) :
+internal class FetchReleasesWorker(context: Context, workerParams: WorkerParameters) :
   CoroutineWorker(context, workerParams) {
-  private val releaseFetcher by lazy { ReleaseFetcher(context) }
+  private val persistence by lazy { Persistence(context) }
 
   override suspend fun doWork(): Result {
     try {
       val releases = ReleaseFetcherApiClient()
         .instance
         .getReleases("otormaigh", "lazyotp-android")
-      releases.forEach { releaseFetcher.releaseQueries.insert(it.toEntity()) }
+      releases.forEach { releaseResponse ->
+        val releaseEntity = releaseResponse.toEntity()
+        persistence.releaseQueries.insert(releaseEntity)
+        releaseEntity.assets.forEach { assetEntity -> persistence.assetQueries.insert(assetEntity) }
+      }
 
       Log.e("ReleaseFetcher", "Releases -> ${releases.count()}")
     } catch (e: Exception) {

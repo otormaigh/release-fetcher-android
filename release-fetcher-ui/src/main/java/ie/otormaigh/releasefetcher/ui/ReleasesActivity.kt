@@ -2,13 +2,19 @@ package ie.otormaigh.releasefetcher.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import ie.otormaigh.releasefetcher.ReleaseFetcher
 import ie.otormaigh.releasefetcher.ui.databinding.ActivityReleasesBinding
 
 class ReleasesActivity : AppCompatActivity() {
   private lateinit var binding: ActivityReleasesBinding
-  private val recyclerAdapter by lazy { ReleasesRecyclerAdapter() }
+  private val recyclerAdapter by lazy {
+    ReleasesRecyclerAdapter {
+      Log.e("ReleasesActivity", "fetch asset -> $it")
+      releaseFetcher.downloadAsset(it)
+    }
+  }
   private val releaseFetcher by lazy { ReleaseFetcher(this) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
