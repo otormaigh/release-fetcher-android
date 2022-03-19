@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 rootProject.name = "release-fetcher-android"
 include ':app'
 include ':release-fetcher'
+include ':release-fetcher-ui'

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ie.otormaigh.releasefetcher.Release
-import ie.otormaigh.releasefetcher.databinding.ListItemReleaseBinding
+import ie.otormaigh.releasefetcher.ui.databinding.ListItemReleaseBinding
 
 internal class ReleasesRecyclerAdapter : ListAdapter<Release, ReleasesRecyclerAdapter.ViewHolder>(diffUtil) {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

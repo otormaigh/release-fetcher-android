@@ -1,0 +1,1 @@
+-keep class ie.otormaigh.releasefetcher.ui.** { *; }

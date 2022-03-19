@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ie.otormaigh.releasefetcher.ReleaseFetcher
-import ie.otormaigh.releasefetcher.databinding.ActivityReleasesBinding
+import ie.otormaigh.releasefetcher.ui.databinding.ActivityReleasesBinding
 
 class ReleasesActivity : AppCompatActivity() {
   private lateinit var binding: ActivityReleasesBinding

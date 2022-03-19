@@ -43,6 +43,7 @@ android {
 
 dependencies {
   implementation project(":release-fetcher")
+  implementation project(":release-fetcher-ui")
 
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 

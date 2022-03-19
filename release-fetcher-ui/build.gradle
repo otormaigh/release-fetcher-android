@@ -1,0 +1,37 @@
+plugins {
+  id 'com.android.library'
+  id 'org.jetbrains.kotlin.android'
+}
+
+android {
+  namespace 'ie.otormaigh.releasefetcher.ui'
+
+  defaultConfig {
+    consumerProguardFiles "consumer-rules.pro"
+  }
+
+  buildFeatures {
+    viewBinding true
+  }
+
+  buildTypes {
+    release {
+      postprocessing {
+        consumerProguardFiles 'consumer-rules.pro'
+        removeUnusedResources = false
+        removeUnusedCode = true
+        optimizeCode = true
+        obfuscate = true
+      }
+    }
+  }
+}
+
+dependencies {
+  api project(":release-fetcher")
+
+  implementation 'androidx.core:core-ktx:1.9.0-alpha01'
+  implementation 'androidx.appcompat:appcompat:1.6.0-alpha01'
+  implementation 'com.google.android.material:material:1.6.0-alpha03'
+  implementation 'androidx.recyclerview:recyclerview:1.3.0-alpha01'
+}
