@@ -2,9 +2,11 @@ package ie.otormaigh.releasefetcher.data
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import ie.otormaigh.releasefetcher.Release
+import ie.otormaigh.releasefetcher.data.AssetResponse.Companion.toEntity
 
 @JsonClass(generateAdapter = true)
-data class ReleaseResponse(
+internal data class ReleaseResponse(
   val id: Long,
   val url: String,
   @Json(name = "assets_url")
@@ -19,14 +21,32 @@ data class ReleaseResponse(
   val createdAt: String, // "2021-08-03T21:06:18Z"
   @Json(name = "published_at")
   val publishedAt: String, // "2021-08-03T21:06:18Z"
+  val assets: List<AssetResponse>,
   @Json(name = "tarball_url")
   val tarballUrl: String,
   @Json(name = "zipball_url")
   val zipballUrl: String,
   val body: String
-)
+) {
 
-
+  companion object {
+    fun ReleaseResponse.toEntity() = Release(
+      id = id,
+      url = url,
+      assetUrl = assetUrl,
+      tagName = tagName,
+      name = name,
+      draft = draft,
+      preRelease = preRelease,
+      createdAt = createdAt,
+      publishedAt = publishedAt,
+      assets = assets.map { asset -> asset.toEntity() },
+      tarballUrl = tarballUrl,
+      zipballUrl = zipballUrl,
+      body = body
+    )
+  }
+}
 
 /*  {
     "url": "https://api.github.com/repos/otormaigh/lazyotp-android/releases/47254765",

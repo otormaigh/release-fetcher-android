@@ -1,6 +1,19 @@
+import ie.otormaigh.releasefetcher.Asset;
+import kotlin.collections.List;
+
 CREATE TABLE release (
   id INTEGER NOT NULL PRIMARY KEY,
+  url TEXT NOT NULL,
+  assetUrl TEXT NOT NULL,
   tagName TEXT NOT NULL,
+  name TEXT NOT NULL,
+  draft INTEGER AS kotlin.Boolean NOT NULL,
+  preRelease INTEGER AS kotlin.Boolean NOT NULL,
+  createdAt TEXT NOT NULL,
+  publishedAt TEXT NOT NULL,
+  assets TEXT AS List<Asset> NOT NULL,
+  tarballUrl TEXT NOT NULL,
+  zipballUrl TEXT NOT NULL,
   body TEXT NOT NULL
 );
 

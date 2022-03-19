@@ -1,6 +1,7 @@
 package ie.otormaigh.releasefetcher.demo
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ie.otormaigh.releasefetcher.ReleaseFetcher
 import ie.otormaigh.releasefetcher.demo.databinding.ActivityMainBinding
@@ -15,6 +16,13 @@ class MainActivity : AppCompatActivity() {
     setContentView(binding.root)
 
     binding.btnShowReleases.setOnClickListener { ReleasesActivity.start(this) }
-    binding.btnFetchRelease.setOnClickListener { ReleaseFetcher.schedule(this) }
+    binding.btnFetchRelease.setOnClickListener {
+      ReleaseFetcher(this).fetchOnline()
+        .observe(this@MainActivity) { workInfo ->
+          if (workInfo.state.isFinished) {
+            Toast.makeText(this@MainActivity, "Finished", Toast.LENGTH_LONG).show()
+          }
+        }
+    }
   }
 }

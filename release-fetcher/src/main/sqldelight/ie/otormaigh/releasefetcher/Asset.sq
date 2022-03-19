@@ -1,0 +1,11 @@
+CREATE TABLE asset(
+  id INTEGER NOT NULL PRIMARY KEY,
+  url TEXT NOT NULL,
+  name TEXT NOT NULL,
+  contentType TEXT NOT NULL,
+  state TEXT NOT NULL,
+  size INTEGER NOT NULL,
+  createdAt TEXT,
+  updatedAt TEXT NOT NULL,
+  browserDownloadUrl TEXT NOT NULL
+);

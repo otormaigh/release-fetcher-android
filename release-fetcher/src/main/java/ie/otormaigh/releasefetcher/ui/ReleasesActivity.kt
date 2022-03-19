@@ -3,18 +3,13 @@ package ie.otormaigh.releasefetcher.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
-import ie.otormaigh.releasefetcher.Database
-import ie.otormaigh.releasefetcher.ReleaseQueries
+import ie.otormaigh.releasefetcher.ReleaseFetcher
 import ie.otormaigh.releasefetcher.databinding.ActivityReleasesBinding
 
 class ReleasesActivity : AppCompatActivity() {
   private lateinit var binding: ActivityReleasesBinding
   private val recyclerAdapter by lazy { ReleasesRecyclerAdapter() }
-  private val driver: SqlDriver = AndroidSqliteDriver(Database.Schema, this, "release_fetcher.db")
-  private val database = Database(driver)
-  private val releaseQueries: ReleaseQueries = database.releaseQueries
+  private val releaseFetcher by lazy { ReleaseFetcher(this) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -23,7 +18,7 @@ class ReleasesActivity : AppCompatActivity() {
 
     setupRecyclerView()
 
-    recyclerAdapter.submitList(releaseQueries.fetchAll().executeAsList())
+    recyclerAdapter.submitList(releaseFetcher.fetchLocal())
   }
 
   private fun setupRecyclerView() {

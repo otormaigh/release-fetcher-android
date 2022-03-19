@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.otormaigh.releasefetcher.Release
 import ie.otormaigh.releasefetcher.databinding.ListItemReleaseBinding
 
-class ReleasesRecyclerAdapter : ListAdapter<Release, ReleasesRecyclerAdapter.ViewHolder>(diffUtil) {
+internal class ReleasesRecyclerAdapter : ListAdapter<Release, ReleasesRecyclerAdapter.ViewHolder>(diffUtil) {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
     ViewHolder(ListItemReleaseBinding.inflate(LayoutInflater.from(parent.context)))
 
