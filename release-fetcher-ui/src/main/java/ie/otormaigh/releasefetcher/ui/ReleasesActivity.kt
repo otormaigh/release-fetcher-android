@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import ie.otormaigh.releasefetcher.ReleaseFetcher
 import ie.otormaigh.releasefetcher.ui.databinding.ActivityReleasesBinding
 
-class ReleasesActivity : AppCompatActivity() {
+class ReleasesActivity internal constructor() : AppCompatActivity() {
+
   private lateinit var binding: ActivityReleasesBinding
   private val recyclerAdapter by lazy {
     ReleasesRecyclerAdapter {

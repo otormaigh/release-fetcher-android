@@ -7,7 +7,7 @@ import ie.otormaigh.releasefetcher.ReleaseFetcher
 import ie.otormaigh.releasefetcher.demo.databinding.ActivityMainBinding
 import ie.otormaigh.releasefetcher.ui.ReleasesActivity
 
-class MainActivity : AppCompatActivity() {
+public class MainActivity : AppCompatActivity() {
   private lateinit var binding: ActivityMainBinding
 
   override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,0 +1,46 @@
+public final class ie/otormaigh/releasefetcher/ui/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class ie/otormaigh/releasefetcher/ui/ReleasesActivity : androidx/appcompat/app/AppCompatActivity {
+	public static final field Companion Lie/otormaigh/releasefetcher/ui/ReleasesActivity$Companion;
+}
+
+public final class ie/otormaigh/releasefetcher/ui/ReleasesActivity$Companion {
+	public final fun start (Landroidx/appcompat/app/AppCompatActivity;)V
+}
+
+public final class ie/otormaigh/releasefetcher/ui/databinding/ActivityReleasesBinding : androidx/viewbinding/ViewBinding {
+	public final field recyclerView Landroidx/recyclerview/widget/RecyclerView;
+	public static fun bind (Landroid/view/View;)Lie/otormaigh/releasefetcher/ui/databinding/ActivityReleasesBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/recyclerview/widget/RecyclerView;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lie/otormaigh/releasefetcher/ui/databinding/ActivityReleasesBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lie/otormaigh/releasefetcher/ui/databinding/ActivityReleasesBinding;
+}
+
+public final class ie/otormaigh/releasefetcher/ui/databinding/ListItemAssetBinding : androidx/viewbinding/ViewBinding {
+	public final field tvName Landroid/widget/TextView;
+	public final field tvSize Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lie/otormaigh/releasefetcher/ui/databinding/ListItemAssetBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/constraintlayout/widget/ConstraintLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lie/otormaigh/releasefetcher/ui/databinding/ListItemAssetBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lie/otormaigh/releasefetcher/ui/databinding/ListItemAssetBinding;
+}
+
+public final class ie/otormaigh/releasefetcher/ui/databinding/ListItemReleaseBinding : androidx/viewbinding/ViewBinding {
+	public final field rvAssets Landroidx/recyclerview/widget/RecyclerView;
+	public final field tvAssetTitle Landroid/widget/TextView;
+	public final field tvBody Landroid/widget/TextView;
+	public final field tvTag Landroid/widget/TextView;
+	public static fun bind (Landroid/view/View;)Lie/otormaigh/releasefetcher/ui/databinding/ListItemReleaseBinding;
+	public synthetic fun getRoot ()Landroid/view/View;
+	public fun getRoot ()Landroidx/constraintlayout/widget/ConstraintLayout;
+	public static fun inflate (Landroid/view/LayoutInflater;)Lie/otormaigh/releasefetcher/ui/databinding/ListItemReleaseBinding;
+	public static fun inflate (Landroid/view/LayoutInflater;Landroid/view/ViewGroup;Z)Lie/otormaigh/releasefetcher/ui/databinding/ListItemReleaseBinding;
+}
+

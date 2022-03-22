@@ -1,0 +1,106 @@
+public final class ie/otormaigh/releasefetcher/Asset {
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()J
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lie/otormaigh/releasefetcher/Asset;
+	public static synthetic fun copy$default (Lie/otormaigh/releasefetcher/Asset;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lie/otormaigh/releasefetcher/Asset;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBrowserDownloadUrl ()Ljava/lang/String;
+	public final fun getContentType ()Ljava/lang/String;
+	public final fun getCreatedAt ()Ljava/lang/String;
+	public final fun getId ()J
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSize ()J
+	public final fun getState ()Ljava/lang/String;
+	public final fun getUpdatedAt ()Ljava/lang/String;
+	public final fun getUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class ie/otormaigh/releasefetcher/AssetQueries : com/squareup/sqldelight/Transacter {
+	public abstract fun fetch (J)Lcom/squareup/sqldelight/Query;
+	public abstract fun fetch (JLkotlin/jvm/functions/Function9;)Lcom/squareup/sqldelight/Query;
+	public abstract fun insert (Lie/otormaigh/releasefetcher/Asset;)V
+}
+
+public final class ie/otormaigh/releasefetcher/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public abstract interface class ie/otormaigh/releasefetcher/Database : com/squareup/sqldelight/Transacter {
+	public static final field Companion Lie/otormaigh/releasefetcher/Database$Companion;
+	public abstract fun getAssetQueries ()Lie/otormaigh/releasefetcher/AssetQueries;
+	public abstract fun getReleaseQueries ()Lie/otormaigh/releasefetcher/ReleaseQueries;
+}
+
+public final class ie/otormaigh/releasefetcher/Database$Companion {
+	public final fun getSchema ()Lcom/squareup/sqldelight/db/SqlDriver$Schema;
+	public final fun invoke (Lcom/squareup/sqldelight/db/SqlDriver;Lie/otormaigh/releasefetcher/Release$Adapter;)Lie/otormaigh/releasefetcher/Database;
+}
+
+public final class ie/otormaigh/releasefetcher/Release {
+	public fun <init> (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()J
+	public final fun component10 ()Ljava/util/List;
+	public final fun component11 ()Ljava/lang/String;
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component13 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Z
+	public final fun component7 ()Z
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()Ljava/lang/String;
+	public final fun copy (JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lie/otormaigh/releasefetcher/Release;
+	public static synthetic fun copy$default (Lie/otormaigh/releasefetcher/Release;JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLjava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lie/otormaigh/releasefetcher/Release;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAssetUrl ()Ljava/lang/String;
+	public final fun getAssets ()Ljava/util/List;
+	public final fun getBody ()Ljava/lang/String;
+	public final fun getCreatedAt ()Ljava/lang/String;
+	public final fun getDraft ()Z
+	public final fun getId ()J
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPreRelease ()Z
+	public final fun getPublishedAt ()Ljava/lang/String;
+	public final fun getTagName ()Ljava/lang/String;
+	public final fun getTarballUrl ()Ljava/lang/String;
+	public final fun getUrl ()Ljava/lang/String;
+	public final fun getZipballUrl ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class ie/otormaigh/releasefetcher/Release$Adapter {
+	public fun <init> (Lcom/squareup/sqldelight/ColumnAdapter;Lcom/squareup/sqldelight/ColumnAdapter;Lcom/squareup/sqldelight/ColumnAdapter;)V
+	public final fun getAssetsAdapter ()Lcom/squareup/sqldelight/ColumnAdapter;
+	public final fun getDraftAdapter ()Lcom/squareup/sqldelight/ColumnAdapter;
+	public final fun getPreReleaseAdapter ()Lcom/squareup/sqldelight/ColumnAdapter;
+}
+
+public final class ie/otormaigh/releasefetcher/ReleaseFetcher {
+	public fun <init> (Landroid/content/Context;)V
+	public final fun downloadAsset (Ljava/lang/Long;)V
+	public final fun fetchLocal ()Ljava/util/List;
+	public final fun fetchOnline ()Landroidx/lifecycle/LiveData;
+}
+
+public abstract interface class ie/otormaigh/releasefetcher/ReleaseQueries : com/squareup/sqldelight/Transacter {
+	public abstract fun fetchAll ()Lcom/squareup/sqldelight/Query;
+	public abstract fun fetchAll (Lkotlin/jvm/functions/Function13;)Lcom/squareup/sqldelight/Query;
+	public abstract fun insert (Lie/otormaigh/releasefetcher/Release;)V
+}
+

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.work.*
 
-object WorkScheduler {
+internal object WorkScheduler {
   inline fun <reified W : CoroutineWorker> oneTimeRequest(context: Context, inputData: Data? = null): LiveData<WorkInfo> {
     val workRequest = OneTimeWorkRequestBuilder<W>()
       .apply { if (inputData != null) setInputData(inputData) }
