@@ -20,7 +20,19 @@ android {
   }
 
   buildTypes {
+    debug {
+      buildConfigField "String", "PROVIDER_AUTHORITY", "\"${namespace}.debug.fileprovider\""
+      manifestPlaceholders = [
+        provider_authority: "${namespace}.debug.fileprovider",
+      ]
+    }
+
     release {
+      buildConfigField "String", "PROVIDER_AUTHORITY", "\"${namespace}.fileprovider\""
+      manifestPlaceholders = [
+        provider_authority: "${namespace}.fileprovider",
+      ]
+
       postprocessing {
         consumerProguardFiles 'consumer-rules.pro'
         removeUnusedResources = false
@@ -42,6 +54,7 @@ dependencies {
   implementation 'com.squareup.retrofit2:retrofit:2.9.0'
   implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
   implementation 'com.squareup.moshi:moshi:1.13.0'
+  implementation 'androidx.core:core:1.7.0'
   kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
 //  ksp 'com.squareup.moshi:moshi-kotlin-codegen:1.13.0'
   implementation 'com.squareup.sqldelight:android-driver:1.5.3'
